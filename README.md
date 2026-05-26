@@ -7,6 +7,6 @@ Following the "**Build Your Own Lisp**" Online eBook (https://buildyourownlisp.c
 Linux & Mac: `cc -std=c99 -Wall main.c ../include/mpc.c -ledit -lm -o main`\
 Windows: `cc -std=99 -Wall main.c ../include/mpc.c -o main`
 	
-## Making use of the following libraries:
+## Dependencies:
 - Editline by [troglobit](https://github.com/troglobit/editline)
 - Micro Parser Combinators by [orangeduck](https://github.com/orangeduck/mpc)
