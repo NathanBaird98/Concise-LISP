@@ -4,7 +4,7 @@ A minimal LISP programming langauge built using C.
 Following the "**Build Your Own Lisp**" Online eBook (https://buildyourownlisp.com/).
 
 ## Build instructions:
-Linux & Mac: `cc -std=c99 -Wall main.c ../include/mpc.c -ledit -lm -o main`
+Linux & Mac: `cc -std=c99 -Wall main.c ../include/mpc.c -ledit -lm -o main`\
 Windows: `cc -std=99 -Wall main.c ../include/mpc.c -o main`
 	
 ## Making use of the following libraries:
