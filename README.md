@@ -4,9 +4,9 @@ A minimal LISP programming langauge built using C.
 Following the "**Build Your Own Lisp**" Online eBook (https://buildyourownlisp.com/).
 
 ## Build instructions:
-	Linux & Mac: `cc -std=c99 -Wall main.c ../include/mpc.c -ledit -lm -o main`
-    Windows: `cc -std=99 -Wall main.c ../include/mpc.c -o main`
+Linux & Mac: `cc -std=c99 -Wall main.c ../include/mpc.c -ledit -lm -o main`
+Windows: `cc -std=99 -Wall main.c ../include/mpc.c -o main`
 	
 ## Making use of the following libraries:
-	Editline library by troglobit [Github](https://github.com/troglobit/editline1)
-	Micro Parser Combinators [Github](https://github.com/orangeduck/mpc)
+- Editline library by troglobit [Github](https://github.com/troglobit/editline1)
+- Micro Parser Combinators [Github](https://github.com/orangeduck/mpc)
