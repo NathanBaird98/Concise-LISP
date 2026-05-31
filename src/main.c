@@ -51,7 +51,7 @@ lval lval_num(long x) {
 	lval v;
 	v.type = LVAL_NUM;
 	v.num = x;
-	return v
+	return v;
 }
 
 /*
@@ -100,33 +100,6 @@ void lval_print(lval v) {
 void lval_println(lval v) { lval_print(v); putchar('\n'); }
 
 /*
- * Recursive evaluation function. Evaluates the ast accumulating
- * the result to return as a long int.
- * 
- * Input: Abstract Syntax Tree pointer
- * Return: long int
- */
-lval eval(mpc_ast_t *t) {
-	if (strstr(t->tag, "number")) {
-		// Check if there is some error in conversion
-		errno = 0;
-		long x = strtol(t->contents, NULL, 10);
-		return errno != ERANGE ? lval_num(x) : lval_err(LERR_BAD_NUM);
-	}
-
-	char *op = t->children[i]->contents;
-	lval x = eval(t->children[2]);
-
-	int i = 3;
-	while (strstre(t->children[i]->tag, "expr")) {
-		x = eval_op(x, op, eval(t->children[i]));
-		i++;
-	}
-
-	return x;
-}
-
-/*
  * Performs the appropriate operation on two input numbers given 
  * a particular operator string.
  *
@@ -148,6 +121,33 @@ lval eval_op(lval x, char *op, lval y) {
 	}
 
 	return lval_err(LERR_BAD_OP);
+}
+
+/*
+ * Recursive evaluation function. Evaluates the ast accumulating
+ * the result to return as a long int.
+ * 
+ * Input: Abstract Syntax Tree pointer
+ * Return: long int
+ */
+lval eval(mpc_ast_t *t) {
+	if (strstr(t->tag, "number")) {
+		// Check if there is some error in conversion
+		errno = 0;
+		long x = strtol(t->contents, NULL, 10);
+		return errno != ERANGE ? lval_num(x) : lval_err(LERR_BAD_NUM);
+	}
+
+	char *op = t->children[1]->contents;
+	lval x = eval(t->children[2]);
+
+	int i = 3;
+	while (strstr(t->children[i]->tag, "expr")) {
+		x = eval_op(x, op, eval(t->children[i]));
+		i++;
+	}
+
+	return x;
 }
 
 int main(int argc, char **argv) {
@@ -178,7 +178,7 @@ int main(int argc, char **argv) {
 		mpc_result_t r;
 		if (mpc_parse("<stdin>", input, Lispy, &r)) {
 			lval result = eval(r.output);
-			lval_printf(result);
+			lval_println(result);
 			mpc_ast_delete(r.output);
 		} else {
 			mpc_err_print(r.error);
