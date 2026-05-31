@@ -106,19 +106,17 @@ void lval_println(lval v) { lval_print(v); putchar('\n'); }
  * Input: Abstract Syntax Tree pointer
  * Return: long int
  */
-long eval(mpc_ast_t *t) {
-	// If tagged as number return it directly
+lval eval(mpc_ast_t *t) {
 	if (strstr(t->tag, "number")) {
-		return atoi(t->contents);
+		// Check if there is some error in conversion
+		errno = 0;
+		long x = strtol(t->contents, NULL, 10);
+		return errno != ERANGE ? lval_num(x) : lval_err(LERR_BAD_NUM);
 	}
 
-	// The operator is always the second child
 	char *op = t->children[i]->contents;
+	lval x = eval(t->children[2]);
 
-	// We store the thirds child in 'x'
-	long x = eval(t->children[2]);
-
-	// Iterate the remaining children and combining
 	int i = 3;
 	while (strstre(t->children[i]->tag, "expr")) {
 		x = eval_op(x, op, eval(t->children[i]));
