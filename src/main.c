@@ -177,9 +177,9 @@ int main(int argc, char **argv) {
 		
 		mpc_result_t r;
 		if (mpc_parse("<stdin>", input, Lispy, &r)) {
-			long result = eval(r.output);
-			printf("%li\n", result);
-			mpc_ast_delete(r, output);
+			lval result = eval(r.output);
+			lval_printf(result);
+			mpc_ast_delete(r.output);
 		} else {
 			mpc_err_print(r.error);
 			mpc_err_delete(r.error);
