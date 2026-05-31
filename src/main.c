@@ -68,6 +68,38 @@ lval lval_err(int x) {
 }
 
 /*
+ * Print an lval Struct
+ * 
+ * Input: lval Struct
+ * Return: Void
+ */
+void lval_print(lval v) {
+	switch (v.type) {
+		case LVAL_NUM: printf("%li", v.num); break;
+
+		case LVAL_ERR:
+			if (v.err == LERR_DIV_ZERO) {
+				printf("Error: Division by Zero!");
+			}
+			if (v.err == LERR_BAD_OP) {
+				printf("Error: Invalid Operator!");
+			}
+			if (v.err == LERR_BAD_NUM) {
+				printf("Error: Invalid Number!");
+			}
+		break;
+	}
+}
+
+/*
+ * Print an lval Struct followed by a newline
+ * 
+ * Input: lval Struct
+ * Return: Void
+ */
+void lval_println(lval v) { lval_print(v); putchar('\n'); }
+
+/*
  * Recursive evaluation function. Evaluates the ast accumulating
  * the result to return as a long int.
  * 
