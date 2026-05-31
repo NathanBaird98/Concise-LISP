@@ -28,6 +28,45 @@ void add_history(char *unused) {}
 #include <editline/history.h>
 #endif
 
+// Lisp Value Struct
+typedef struct {
+	int type;
+	long num;
+	int err;
+} lval;
+
+// Enumeration of possible lval Types
+enum { LVAL_NUM, LVAL_ERR };
+
+// Enumeration of possible Error Types
+enum { LERR_DIV_ZERO, LERR_BAD_OP, LERR_BAD_NUM };
+
+/* 
+ * Creates a new number type lval
+ *
+ * Input: Long int
+ * Return: lval Stuct (NUM type)
+ */
+lval lval_num(long x) {
+	lval v;
+	v.type = LVAL_NUM;
+	v.num = x;
+	return v
+}
+
+/*
+ * Creates a new error type lval
+ * 
+ * Input: int
+ * Return: lval Struct (ERR type)
+ */
+lval lval_err(int x) {
+	lval v;
+	v.type = LVAL_ERR;
+	v.err = x;
+	return v;
+}
+
 /*
  * Recursive evaluation function. Evaluates the ast accumulating
  * the result to return as a long int.
