@@ -47,28 +47,57 @@ enum { LVAL_ERR, LVAL_NUM, LVAL_SYM, LVAL_SEXPR };
 enum { LERR_DIV_ZERO, LERR_BAD_OP, LERR_BAD_NUM };
 
 /* 
- * Creates a new number type lval
+ * Constructs a pointer to a new Number lval
  *
  * Input: Long int
- * Return: lval Stuct (NUM type)
+ * Return: lval Stuct Pointer (NUM type)
  */
-lval lval_num(long x) {
-	lval v;
-	v.type = LVAL_NUM;
-	v.num = x;
+lval *lval_num(long x) {
+	lval *v = malloc(sizeof(lval));
+	v->type = LVAL_NUM;
+	v->num = x;
 	return v;
 }
 
 /*
- * Creates a new error type lval
+ * Constructs a pointer to a new Error lval
  * 
- * Input: int
- * Return: lval Struct (ERR type)
+ * Input: char Pointer
+ * Return: lval Struct Pointer (ERR type)
  */
-lval lval_err(int x) {
-	lval v;
-	v.type = LVAL_ERR;
-	v.err = x;
+lval *lval_err(char *m) {
+	lval *v = malloc(sizeof(lval));
+	v->type = LVAL_ERR;
+	v->err = malloc(strlen(m) + 1);
+	strcpy(v->err, m);
+	return v;
+}
+
+/*
+ * Constructs a pointer to a new Symbol lval
+ *
+ * Input: char Pointer
+ * Return: lval Struct Pointer (SYM type)
+ */
+lval *lval_sym(char *s) {
+	lval *v = malloc(sizeof(lval));
+	v->type = LVAL_SYM;
+	v->sym = malloc(strlen(s) + 1);
+	strcpy(v->sym, s);
+	return v;
+}
+
+/*
+ * Constructs a pointer to a new Sexpr lval
+ * 
+ * Input: void
+ * Return: lval Struct Pointer (SEXPR type)
+ */
+lval *lval_sexpr(void) {
+	lval *v = malloc(sizeof(lval));
+	v->type = LVAL_SEXPR;
+	v->count = 0;
+	v->cell = NULL;
 	return v;
 }
 
