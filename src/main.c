@@ -102,6 +102,32 @@ lval *lval_sexpr(void) {
 }
 
 /*
+ * 
+ */
+void lval_del(lval *v) {
+	switch (v->type) {
+		// Do nothng special for number type
+		case LVAL_NUM: break;
+
+		// For ERR or SYM free the string data
+		case LVAL_ERR: free(v->err); break;
+		case LVAL_SYM: free(v->sym); break;
+	
+		// If SEXPR then delete all elements inside
+		case LVAL_SEXPR:
+			for (int i = 0; i < v->count; i++) {
+				lval_del(v->cell[i]);
+			}
+			// Also free the memory allocated to contain the pointers
+			free(v->cell);
+		break;
+	}
+
+	// Free the memory allocated for the "lval" Struct itself
+	free(v);
+}
+
+/*
  * Print an lval Struct
  * 
  * Input: lval Struct
